@@ -7,7 +7,7 @@ The implementation of the rolling and batch versions of the AUC-PR was made base
 
 ## Running
 
-The `model` directory contains the Python code to create a CSV containing the scores and classes of the MaliciousURL dataset samples given by the Hoeffding Tree Classifier.
+The `model` directory contains the Python code to create a CSV containing the scores and classes of the MaliciousURL dataset samples given by the Hoeffding Tree Classifier (nevertheless, the CSV is already on the repository).
 
 To create the CSV, which will be used to run the AUC-PR benchmarks, you will need [poetry](https://python-poetry.org).
 With poetry, simply run the following commands:
