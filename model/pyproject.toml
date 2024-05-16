@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "benchmark-aucpr"
+version = "0.1.0"
+description = ""
+authors = ["David Gomes <david.gomes@tuta.io>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.11.*"
+river = "^0.21.1"
+pandas = "^2.2.2"
+six = "^1.16.0"
+tqdm = "^4.66.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
