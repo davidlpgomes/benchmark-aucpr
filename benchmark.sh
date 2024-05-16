@@ -12,7 +12,7 @@ do
 
     echo -n "$w," >> $csv
 
-    result="$(./bench -f scores.csv -w $w)"
+    result="$(./build/exec/benchmark -f scores.csv -w $w)"
     echo "$result"
 
     echo "$result" | grep "Batch" | cut -d' ' -f2 | xargs echo -n >> $csv
