@@ -1,18 +1,42 @@
 CXX = g++
 CXXFLAGS = -pedantic-errors -Wall -Wextra -Werror -O3
-TARGET = bench
 
-$(TARGET): main.o BatchPRAUC.o RollingPRAUC.o
-	$(CXX) $(CXXFLAGS) -o $(TARGET) main.o BatchPRAUC.o RollingPRAUC.o
+BUILD = build
+OBJ_DIR = $(BUILD)/objects
+EXEC_DIR = $(BUILD)/exec
 
-main.o: main.cpp
-	$(CXX) $(CXXFLAGS) -c main.cpp
+INCLUDE = -I src/
+SRC = $(wildcard src/*.cpp)
 
-BatchPRAUC.o: BatchPRAUC.hpp BatchPRAUC.cpp
-	$(CXX) $(CXXFLAGS) -c BatchPRAUC.cpp
+TARGET = benchmark
 
-RollingPRAUC.o: RollingPRAUC.hpp RollingPRAUC.cpp
-	$(CXX) $(CXXFLAGS) -c RollingPRAUC.cpp
+OBJECTS = $(SRC:%.cpp=$(OBJ_DIR)/%.o)
+DEPENDENCIES = $(OBJECTS:.o=.d)
+
+all: build $(EXEC_DIR)/$(TARGET)
+
+build:
+	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(EXEC_DIR)
+
+$(OBJ_DIR)/%.o: %.cpp
+	@mkdir -p $(@D)
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $< -MMD -o $@
+
+$(EXEC_DIR)/$(TARGET): $(OBJECTS)
+	@mkdir -p $(@D)
+	$(CXX) $(CXXFLAGS) -o $(EXEC_DIR)/$(TARGET) $^
+
+-include $(DEPENDENCIES)
+
+.PHONY: all build clean info
 
 clean:
-	rm -f $(TARGET) *.o
+	@echo "[*] Removing build directory: ${BUILD}"
+	rm -rf $(BUILD)
+
+info:
+	@echo "[*] Executable directory: ${EXEC_DIR}"
+	@echo "[*] Object directory: ${OBJ_DIR}"
+	@echo "[*] Sources: ${SRC}"
+	@echo "[*] Objects: ${OBJECTS}"
